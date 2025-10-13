@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+     <title>CricHD TV | Free Sports Streaming | Live TV, Cricket, Football & More</title>
+    <meta name="description" content="CricHD TV - Watch live TV, sports live, IPL, cricket, football, ICC World Cup & more for free. Stream your favorite sports online anytime.">
+    <meta name="keywords" content="live tv, sports live, sports streaming, IPL, cricket, football, ICC, World Cup, free sports streaming, CricHD TV">
+    <meta name="author" content="CricHD TV">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="CricHD TV | Free Sports Streaming">
+    <meta property="og:description" content="Watch live TV, sports live, IPL, cricket, football, ICC World Cup & more for free on CricHD TV.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourwebsite.com/">
+    <meta property="og:image" content="https://yourwebsite.com/logo.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CricHD TV | Free Sports Streaming">
+    <meta name="twitter:description" content="Watch live TV, sports live, IPL, cricket, football, ICC World Cup & more for free.">
+    <meta name="twitter:image" content="https://yourwebsite.com/logo.png">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <link rel="shortcut icon" href="https://i.postimg.cc/sxkGqfMT/x-fire-flix.png">
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <!-- Clappr Player -->
+  <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+  <style>
+    :root {
+      --bs-primary: #dc3545;
+      --bs-dark: #121212;
+      --bs-light: #f8f9fa;
+    }
+    
+    body { 
+      font-family: 'Segoe UI', system-ui, sans-serif; 
+      background-color: var(--bs-dark); 
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    body.light-mode { 
+      background-color: var(--bs-light); 
+      color: #212529;
+    }
+    
+    .navbar-brand img {
+      transition: transform 0.3s ease;
+    }
+    
+    .navbar-brand:hover img {
+      transform: scale(1.05);
+    }
+    
+    .channel-card { 
+      background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      border: 1px solid rgba(220, 53, 69, 0.3);
+      border-radius: 12px;
+      padding: 1rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .light-mode .channel-card {
+      background: linear-gradient(145deg, #ffffff, #f8f9fa);
+      border: 1px solid rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .channel-card:hover { 
+      transform: translateY(-5px);
+      border-color: var(--bs-primary);
+      box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
+    }
+    
+    .channel-card img { 
+      width: 100%; 
+      height: 130px; 
+      object-fit: contain; 
+      border-radius: 8px;
+      background: white;
+      padding: 0.25rem;
+    }
+    
+    .channel-name { 
+      text-align: center; 
+      margin-top: 0.75rem; 
+      font-size: 0.9rem; 
+      font-weight: 600;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .telegram-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    
+    .search-box {
+      border-radius: 25px;
+      padding: 0.75rem 1.5rem;
+    }
+    
+    main {
+      flex-grow: 1;
+    }
+
+    .mode-toggle-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+    
+    /* Player Styles */
+    .player-container {
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    
+    .player-wrapper {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    }
+    
+    #player {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .player-watermark {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 40px;
+      opacity: .7;
+      z-index: 10;
+    }
+    
+    .player-info {
+      padding: 9px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 10px; 
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: rgba(255,255,255,0.05);
+    }
+    
+    .light-mode .player-info {
+      background: rgba(0,0,0,0.05);
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .current-channel {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #dc3545; /* Red color for current channel */
+    }
+    
+    .light-mode .current-channel {
+      color: #dc3545; /* Same red color in light mode */
+    }
+    
+    .now-playing-text {
+      color: #6c757d; /* Muted color for "Now Playing" text */
+      font-size: 0.9rem;
+    }
+    
+    .light-mode .now-playing-text {
+      color: #6c757d; /* Same muted color in light mode */
+    }
+    
+    /* Embed Section Styles */
+    .embed-section {
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .light-mode .embed-section {
+      background: rgba(0,0,0,0.05);
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .embed-code {
+      background: rgba(0,0,0,0.3);
+      border-radius: 4px;
+      padding: 0.75rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    
+    .light-mode .embed-code {
+      background: rgba(0,0,0,0.05);
+    }
+    
+    .copy-btn {
+      background: var(--bs-primary);
+      border: none;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      transition: background 0.2s;
+    }
+    
+    .copy-btn:hover {
+      background: #c82333;
+    }
+    
+    /* Active channel highlight */
+    .channel-card.active {
+      border-color: green;
+      background: rgba(220, 53, 69, 0.1);
+      box-shadow: 0 0 15px rgba(220, 53, 69, 0.3);
+    }
+    
+    .light-mode .channel-card.active {
+      background: rgba(220, 53, 69, 0.1);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .player-wrapper {
+        padding-bottom: 56.25%; /* Maintain 16:9 on mobile */
+      }
+      
+      .channel-card img {
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation Header -->
+  <nav class="navbar navbar-dark bg-dark border-bottom border-danger position-relative">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgn47Htl8rZkop10CXrSjkn7Y9zA07Zdh1athN4qyFMx7VQtvqTcaxYT6cEjUKytO-hOvJT3nbKuIJZsUAgbouV4CRSahlPAXnyFmolO3mhdZwXR0W0WlkXYXQIJn-X8pe0lUoVCUbA14neQbccB4yTO2zutHj1jSjt33Z7BylqbBQSU7e_vw2w1AK5pbvf/s600/logo.png" alt="X Fire Flix Logo" height="50" class="me-2">
+        <div>
+          <span class="fw-bold text-danger">CricHD</span>
+          <span class="text-white-50"> |By XFire Flix</span>
+        </div>
+      </a>
+      
+      <!-- Light/Dark Mode Toggle -->
+      <div class="mode-toggle-container">
+        <button class="btn btn-outline-light btn-sm" id="toggleMode">
+          <i class="bi bi-sun-fill"></i>
+          <i class="bi bi-moon-fill"></i> <span class="mode-text">Dark Mode</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="py-4">
+    <div class="container">
+      <!-- Player Section -->
+      <div class="player-container">
+        <div class="player-wrapper">
+          <div id="player"></div>
+        </div>
+        <div class="player-info">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <span class="now-playing-text">Now Playing:</span>
+              <span class="current-channel ms-2" id="currentChannelName">Select a channel to play</span>
+            </div>
+            <div class="text-muted">
+              <i class="bi bi-play-circle-fill text-danger me-1"></i>
+              <small>Live</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Embed Section -->
+      <div class="embed-section">
+        <h5 class="mb-3">Embed/Iframe</h5>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Embed URL</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="embedUrl" readonly>
+              <button class="btn btn-outline-secondary copy-btn" data-target="embedUrl">
+                <i class="bi bi-clipboard"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Embed Code</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="embedCode" readonly>
+              <button class="btn btn-outline-secondary copy-btn" data-target="embedCode">
+                <i class="bi bi-clipboard"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Box -->
+      <div class="row justify-content-center mb-4">
+        <div class="col-12 col-md-8 col-lg-6">
+          <div class="input-group">
+            <input id="searchInput" type="text" class="form-control search-box border-end-0" placeholder="Search channels...">
+            <span class="input-group-text bg-white search-box border-start-0">
+              <i class="bi bi-search"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      
+      <div id="channelList" class="row g-3">
+        
+        <div class="col-12 text-center">
+          <div class="spinner-border text-danger" role="status">
+            <span class="visually-hidden">Loading channels...</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div id="noResults" class="text-center mt-5 d-none">
+        <h5 class="text-muted">No channels found</h5>
+        <p class="text-muted">Try adjusting your search terms</p>
+      </div>
+    </div>
+  </main>
+<script src="script.js"></script>
+  <!-- Footer -->
+  <footer class="bg-dark text-white-50 py-3 mt-auto border-top border-danger">
+    <div class="container text-center">
+      <small>&copy; 2025 X Fire Flix. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <!-- Telegram Floating Button -->
+  <div class="telegram-float position-fixed" style="bottom: 20px; right: 20px; z-index: 1000;">
+    <a href="https://t.me/xfireflix" target="_blank" class="btn btn-primary rounded-pill shadow d-flex align-items-center px-3 py-2 text-decoration-none">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" width="20" height="20" class="me-2">
+      <span class="fw-bold">Join Telegram</span>
+    </a>
+  </div>
+
+  <!-- Bootstrap & Popper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+  <script>
+    // Global variables
+    let player = null;
+    let channels = [];
+    let currentChannelIndex = -1;
+    const jsonUrl = 'https://raw.githubusercontent.com/abusaeeidx/CricHd-playlists-Auto-Update-permanent/main/api.json';
+
+    // fetch channels from JSON API
+    async function fetchChannels() {
+      try {
+        const response = await fetch(jsonUrl);
+        if (!response.ok) {
+          throw new Error('Failed to fetch channels');
+        }
+        channels = await response.json();
+        renderChannels();
+        initializePlayer();
+      } catch (error) {
+        console.error('Error fetching channels:', error);
+        document.getElementById('channelList').innerHTML = '<div class="col-12 text-center text-danger">Failed to load channels. Please try again later.</div>';
+      }
+    }
+
+   
+    function renderChannels() {
+      const channelList = document.getElementById('channelList');
+      
+      if (channels.length === 0) {
+        channelList.innerHTML = '<div class="col-12 text-center text-danger">No channels available.</div>';
+        return;
+      }
+      
+      channelList.innerHTML = channels.map((channel, index) => `
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="channel-card" data-index="${index}">
+            <img src="${channel.logo}" onerror="this.src='https://via.placeholder.com/150x130?text=No+Logo';" alt="${channel.name} Logo">
+            <div class="channel-name">${channel.name}</div>
+          </div>
+        </div>
+      `).join('');
+      
+      
+      const channelCards = document.querySelectorAll('.channel-card');
+      channelCards.forEach(card => {
+        card.addEventListener('click', function() {
+          const index = parseInt(this.getAttribute('data-index'));
+          playChannel(index);
+        });
+      });
+    }
+
+    // Function to initialize the player
+    function initializePlayer() {
+      if (channels.length === 0) return;
+      
+      // Create player instance
+      player = new Clappr.Player({
+        parentId: "#player",
+        autoPlay: false,
+        mute: false,
+        width: "100%",
+        height: "100%",
+        poster: 'https://via.placeholder.com/800x450?text=Select+a+Channel'
+      });
+      
+      
+      if (channels.length > 0) {
+        playChannel(0);
+      }
+    }
+
+    
+    function playChannel(index) {
+      if (index < 0 || index >= channels.length) return;
+      
+      const channel = channels[index];
+      
+      
+      player.load(channel.link);
+      player.configure({ 
+        autoPlay: true, 
+        poster: channel.logo 
+      });
+      
+      
+      document.getElementById('currentChannelName').textContent = channel.name;
+      
+      
+      updateEmbedSection(channel);
+      
+      
+      const channelCards = document.querySelectorAll('.channel-card');
+      channelCards.forEach(card => card.classList.remove('active'));
+      channelCards[index].classList.add('active');
+      
+      
+      if (window.innerWidth < 768) {
+        channelCards[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      
+      currentChannelIndex = index;
+    }
+
+  // Function to update embed section with current channel info
+function updateEmbedSection(channel) {
+  
+  const currentUrl = window.location.href;
+  
+  
+  const basePath = currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1);
+  
+  const embedUrl = `${basePath}player.html?id=${channel.id}`;
+  
+  
+  const embedCode = `<iframe src="${embedUrl}" width="100%" height="400" frameborder="0" allowfullscreen></iframe>`;
+  
+  
+  document.getElementById('embedUrl').value = embedUrl;
+  document.getElementById('embedCode').value = embedCode;
+}
+
+    
+    document.addEventListener('DOMContentLoaded', fetchChannels);
+
+    
+    document.getElementById('toggleMode').addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+      const toggleBtn = document.getElementById('toggleMode');
+      const sunIcon = toggleBtn.querySelector('.bi-sun-fill');
+      const moonIcon = toggleBtn.querySelector('.bi-moon-fill');
+      const modeText = toggleBtn.querySelector('.mode-text');
+      
+      if (document.body.classList.contains('light-mode')) {
+        sunIcon.classList.remove('d-none');
+        moonIcon.classList.add('d-none');
+        modeText.textContent = 'Light Mode';
+        toggleBtn.classList.remove('btn-outline-light');
+        toggleBtn.classList.add('btn-outline-dark');
+      } else {
+        sunIcon.classList.add('d-none');
+        moonIcon.classList.remove('d-none');
+        modeText.textContent = 'Dark Mode';
+        toggleBtn.classList.remove('btn-outline-dark');
+        toggleBtn.classList.add('btn-outline-light');
+      }
+    });
+
+    
+    document.getElementById('searchInput').addEventListener('input', function () {
+      const searchValue = this.value.toLowerCase().trim();
+      const channelCards = document.querySelectorAll('#channelList .col-6');
+      const noResults = document.getElementById('noResults');
+      let visibleCount = 0;
+      
+      channelCards.forEach(card => {
+        const name = card.querySelector('.channel-name').textContent.toLowerCase();
+        
+        if (name.includes(searchValue)) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      // Show/hide no results message
+      if (visibleCount === 0 && searchValue !== '') {
+        noResults.classList.remove('d-none');
+      } else {
+        noResults.classList.add('d-none');
+      }
+    });
+
+    // Copy to clipboard functionality
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const targetElement = document.getElementById(targetId);
+        
+        
+        targetElement.select();
+        targetElement.setSelectionRange(0, 99999); // For mobile devices
+        
+        
+        navigator.clipboard.writeText(targetElement.value)
+          .then(() => {
+            // Show feedback
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="bi bi-check"></i>';
+            
+            setTimeout(() => {
+              this.innerHTML = originalText;
+            }, 1500);
+          })
+          .catch(err => {
+            console.error('Failed to copy: ', err);
+          });
+      });
+    });
+  </script>
+</body>
+</html>

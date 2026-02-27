@@ -1,4 +1,4 @@
->?php
+<?php
 // A single source of truth for the channel list.
 $channels = [
     'starhindi' => ['name' => 'Star Sports 1HD हिंदी', 'logo' => 'https://i.ibb.co/HfMSjPdF/siam.png', 'referer' => 'https://streamcrichd.com/update/skys1.php'],
